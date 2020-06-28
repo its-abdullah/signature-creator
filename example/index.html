@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" type="text/css" href="../dist/signature-creator.css" />
+  <link rel="stylesheet" type="text/css" href="custom.css" />
+  <script type="text/javascript" src="../lib/html2canvas.min.js"></script>
+  <script type="text/javascript" src="../dist/signature-creator.js"></script>
+</head>
+
+<body>
+  <div id="signature" class="signature">
+    <div class="texts">
+      <p id="name" class="name">الإسم</p>
+      <p id="title" class="title">المنصب</p>
+    </div>
+  </div>
+</body>
+
+<script>
+  signatureCreator.makeSignatureEditor(
+    document.getElementById('signature'),
+    {
+    dir: 'rtl',
+    saveBtnLabel: 'حفظ كصورة',
+    editBtnLabel: 'تعديل النصوص',
+    previewBtnLabel: 'معاينة'
+  }
+  );
+</script>
+
+</html>
