@@ -1,4 +1,4 @@
-# DateTimePicker
+# Signature-creator
 ![Generic badge](https://img.shields.io/badge/status-beta-blue.svg)
 
 Signature-creator is a js library providing editable html content (signature), to be genarated later as an image.
