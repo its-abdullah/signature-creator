@@ -3,3 +3,5 @@ node_modules/
 
 # my files
 src/app_full.js
+
+.vscode
