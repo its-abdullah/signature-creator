@@ -39,7 +39,7 @@ Call the following files in your HTML:
 
 ## Options
 * ##### dir
-    `default: rtl` `type: string` `Options: {rtl, ltr}`
+    `default: ltr` `type: string` `Options: {rtl, ltr}`
     controls direction of signature div, most importantly the control buttons.
 
 * ##### saveBtnLabel
