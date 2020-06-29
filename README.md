@@ -25,7 +25,7 @@ Call the following files in your HTML:
 * Add your own pharagraphs inside of this div, these pharagraphs will be the editable ones by the user.
 * Call `signatureCreator.makeSignatureEditor` function and pass to it the following:
     * A selector of the div with the unique class.
-    * Options.
+    * Options [can be found here](https://github.com/terser-js/terser#Options).
     #### Example
     ```sh
     signatureCreator.makeSignatureEditor(
