@@ -1,37 +1,24 @@
-/* custom css */
-body {
-  margin: 0;
-}
-
-input {
-  border: none;
-  background: none;
-  display: block;
-  min-width: 250px;
-  width: 100%;
-}
-
-.signature {
+.signature-container > .signature {
   display: flex;
   margin: auto;
   transform-origin: top left;
   transition: all 0.2s ease-in-out 0s;
 }
 
-.signature.no-animation {
-  transition: none;
-}
-
-html[dir="rtl"] .signature {
+.signature-container[dir="rtl"] > .signature {
   transform-origin: top right;
 }
 
-p {
+.signature-container > .signature.no-animation {
+  transition: none;
+}
+
+.signature-container > .signature p {
   margin-block-start: 0;
   margin-block-end: 0;
 }
 
-p[contenteditable="true"] {
+.signature-container > .signature p[contenteditable="true"] {
   display: block;
   width: 140%;
   min-height: 100%;
@@ -43,11 +30,11 @@ p[contenteditable="true"] {
   margin-block-end: 8px;
 }
 
-p[contenteditable="true"]:focus {
+.signature-container > .signature p[contenteditable="true"]:focus {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-.preview-buttons {
+.signature-container > .control-buttons {
   position: fixed;
   z-index: 1;
   bottom: 0;
@@ -57,14 +44,13 @@ p[contenteditable="true"]:focus {
   transform-origin: top left;
 }
 
-html[dir="rtl"] .preview-buttons {
+.signature-container[dir="rtl"] > .control-buttons {
   transform-origin: top right;
   right: 0;
   margin-right: 20px;
 }
 
-/* used bootstrap css  */
-.btn {
+.control-buttons > .btn {
   display: inline-block;
   color: #212529;
   text-align: center;
@@ -80,48 +66,56 @@ html[dir="rtl"] .preview-buttons {
   cursor: pointer;
 }
 
-.btn:hover {
+.control-buttons > .btn:hover {
   color: #212529;
   text-decoration: none;
 }
 
-.btn:focus {
+.control-buttons > .btn:focus {
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-.btn-primary {
+.control-buttons > .btn.btn-primary {
   color: #fff;
   background-color: #007bff;
   border-color: #007bff;
 }
 
-.btn-primary:hover {
+.control-buttons > .btn.btn-primary:hover {
   color: #fff;
   background-color: #0069d9;
   border-color: #0062cc;
 }
 
-.btn-primary:focus {
+.control-buttons > .btn.btn-primary:focus {
   box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 }
 
-.btn-outline-primary {
+.control-buttons > .btn.btn-outline-primary {
   color: #007bff;
   border-color: #007bff;
   background-color: white;
 }
 
-.btn-outline-primary:hover {
+.control-buttons > .btn.btn-outline-primary:hover {
   color: #fff;
   background-color: #007bff;
   border-color: #007bff;
 }
 
-.btn-outline-primary:focus {
+.control-buttons > .btn.btn-outline-primary:focus {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
 }
 
-.d-none {
-  display: none !important;
+.control-buttons.hide {
+  display: none;
+}
+
+.control-buttons.edit-mode > .edit {
+  display: none;
+}
+
+.control-buttons.preview-mode > .preview {
+  display: none;
 }

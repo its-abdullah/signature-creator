@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="ltr">
+<html>
 
 <head>
   <meta charset="utf-8" />
@@ -11,17 +11,17 @@
 </head>
 
 <body>
-  <div id="signature" class="signature">
+  <div class="the-div">
     <div class="texts">
-      <p id="name" class="name">Name</p>
-      <p id="title" class="title">Position</p>
+      <p class="name">Name</p>
+      <p class="title">Position</p>
     </div>
   </div>
 </body>
 
 <script>
   signatureCreator.makeSignatureEditor(
-    document.getElementById('signature')
+    document.querySelector('.the-div')
   );
 </script>
 

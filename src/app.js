@@ -10,7 +10,8 @@ var defaultOptions = {
     dir: 'ltr',
     saveBtnLabel: 'Save As Image',
     editBtnLabel: 'Edit Texts',
-    previewBtnLabel: 'Preview'
+    previewBtnLabel: 'Preview',
+    fileName: 'signature'
 };
 
 /**
@@ -21,9 +22,10 @@ function makeSignatureEditor(node, options) {
     options = options || {};
     copyOptions(options);
     options = signatureCreator.impl.options;
+    
     Promise.resolve(node)
         .then(function (node) {
-            bindControls(node, options);
+            buildHTMLStructure(node);
         })
         .then(function () {
             bindFunctions(node);
@@ -34,66 +36,60 @@ function makeSignatureEditor(node, options) {
 }
 
 function copyOptions(options) {
-    // Copy options to impl options for use in impl
-    if (typeof (options.dir) === 'undefined') {
-        signatureCreator.impl.options.dir = defaultOptions.dir;
-    } else {
-        signatureCreator.impl.options.dir = options.dir;
-    }
-
-    if (typeof (options.saveBtnLabel) === 'undefined') {
-        signatureCreator.impl.options.saveBtnLabel = defaultOptions.saveBtnLabel;
-    } else {
-        signatureCreator.impl.options.saveBtnLabel = options.saveBtnLabel;
-    }
-
-    if (typeof (options.editBtnLabel) === 'undefined') {
-        signatureCreator.impl.options.editBtnLabel = defaultOptions.editBtnLabel;
-    } else {
-        signatureCreator.impl.options.editBtnLabel = options.editBtnLabel;
-    }
-
-    if (typeof (options.previewBtnLabel) === 'undefined') {
-        signatureCreator.impl.options.previewBtnLabel = defaultOptions.previewBtnLabel;
-    } else {
-        signatureCreator.impl.options.previewBtnLabel = options.previewBtnLabel;
+    for (var key of Object.keys(defaultOptions)) {
+        if (options[key] == undefined)
+            signatureCreator.impl.options[key] = defaultOptions[key];
+        else
+            signatureCreator.impl.options[key] = options[key];
     }
 }
 
-function bindControls(node, options) {
-    var html = `<div id="previewButtons" class="preview-buttons">
-                    <button class="btn btn-primary save" type="button" id="save">
-                    ${options.saveBtnLabel}
-                    </button>
-                    <button class="btn btn-outline-primary edit" type="button" id="edit">
-                    ${options.editBtnLabel}
-                    </button>
-                    <button class="btn btn-outline-primary preview d-none" type="button" id="preview">
-                    ${options.previewBtnLabel}
-                    </button>
-                </div>`;
+function buildHTMLStructure(node) {
+    node.classList.add('signature-container');
 
-    var controls = createElementFromHTML(html);
+    if (signatureCreator.impl.options.dir === "rtl")
+        node.setAttribute('dir', signatureCreator.impl.options.dir);
 
-    node.parentElement.insertBefore(controls, null);
+    var userHTML = node.innerHTML;
+    var signatureHTML = `<div class="signature">${userHTML}</div>`;
+
+    node.innerHTML = signatureHTML;
+
+    bindControls(node);
 
     return true;
 }
 
+function bindControls(node) {
+    var html = `<div class="control-buttons preview-mode">
+                    <button class="btn btn-primary save" type="button">
+                    ${signatureCreator.impl.options.saveBtnLabel}
+                    </button>
+                    <button class="btn btn-outline-primary edit" type="button">
+                    ${signatureCreator.impl.options.editBtnLabel}
+                    </button>
+                    <button class="btn btn-outline-primary preview" type="button">
+                    ${signatureCreator.impl.options.previewBtnLabel}
+                    </button>
+                </div>`;
+
+    node.innerHTML += html;
+}
+
 function bindFunctions(node) {
-    node.parentElement.querySelector('.save').addEventListener('click', function () {
+    node.querySelector('.control-buttons > .save').addEventListener('click', function () {
         download(node);
     });
 
-    node.parentElement.querySelector('.edit').addEventListener('click', function () {
+    node.querySelector('.control-buttons > .edit').addEventListener('click', function () {
         edit(node);
     });
 
-    node.parentElement.querySelector('.preview').addEventListener('click', function () {
+    node.querySelector('.control-buttons > .preview').addEventListener('click', function () {
         preview(node);
     });
 
-    node.querySelectorAll('p').forEach(function (e) {
+    node.querySelectorAll('.signature p').forEach(function (e) {
         e.addEventListener('focus', function () {
             selectText(e);
         });
@@ -101,10 +97,10 @@ function bindFunctions(node) {
 }
 
 function download(node) {
-    node.parentElement.querySelector("#previewButtons").classList.add("d-none");
+    node.querySelector(".control-buttons").classList.add("hide");
     document.querySelector("body").style.overflow = "hidden";
 
-    var currentView = node.parentElement.querySelector("#previewButtons > .edit").classList.contains('d-none') ? "EditMode" : "PreviewMode";
+    var currentView = node.querySelector(".control-buttons").classList.contains('edit-mode') ? "EditMode" : "PreviewMode";
 
     originalZoom(node, false);
 
@@ -114,20 +110,20 @@ function download(node) {
 
     window.scrollTo(0, 0);
 
-    node.querySelectorAll('p').forEach(function (e) {
+    node.querySelectorAll('.signature p').forEach(function (e) {
         e.innerHTML = e.innerHTML.replace(/ /g, "&nbsp;");
     });
 
-    html2canvas(node).then(function (canvas) {
+    html2canvas(node.querySelector('.signature')).then(function (canvas) {
         var link = document.createElement("a");
         document.body.appendChild(link);
-        link.download = "Eid-Congrats.jpg";
+        link.download = signatureCreator.impl.options.fileName + ".jpg";
         link.href = canvas.toDataURL("image/jpeg");
         link.target = "_blank";
         link.click();
     });
 
-    node.parentElement.querySelector("#previewButtons").classList.remove("d-none");
+    node.parentElement.querySelector(".control-buttons").classList.remove("hide");
     document.querySelector("body").style.overflow = null;
 
     if (currentView == "EditMode")
@@ -137,8 +133,8 @@ function download(node) {
 }
 
 function preview(node, animation) {
-    node.parentElement.querySelector(".edit").classList.remove("d-none");
-    node.parentElement.querySelector(".preview").classList.add("d-none");
+    node.querySelector(".control-buttons").classList.add("preview-mode");
+    node.querySelector(".control-buttons").classList.remove("edit-mode");
 
     toggleContentEditable(node, false);
 
@@ -152,16 +148,16 @@ function preview(node, animation) {
 function edit(node, animation) {
     originalZoom(node, animation);
 
-    node.parentElement.querySelector(".edit").classList.add("d-none");
-    node.parentElement.querySelector(".preview").classList.remove("d-none");
+    node.querySelector(".control-buttons").classList.add("edit-mode");
+    node.querySelector(".control-buttons").classList.remove("preview-mode");
 
     toggleContentEditable(node, true);
 
-    window.scrollTo(0, node.querySelector('p').offsetTop, 'smooth');
+    window.scrollTo(0, node.querySelector('.signature p').offsetTop, 'smooth');
 
     setTimeout(function () {
-        node.querySelector('p').focus();
-        window.scrollTo(0, node.querySelector('p').offsetTop, 'smooth');
+        node.querySelector('.signature p').focus();
+        window.scrollTo(0, node.querySelector('.signature p').offsetTop, 'smooth');
     }, 200);
 
     // window.scrollTo(0, node.querySelector('p').offsetTop);
@@ -169,19 +165,18 @@ function edit(node, animation) {
 
 function fittingZoom(node, animation = true) {
     if (animation)
-        node.classList.remove('no-animation');
+        node.querySelector('.signature').classList.remove('no-animation');
     else
-        node.classList.add('no-animation');
+        node.querySelector('.signature').classList.add('no-animation');
 
-    if (document.body.clientWidth == document.body.scrollWidth) return;
+    if (node.clientWidth == node.scrollWidth) return;
 
     document.querySelector("body").style.overflow = "hidden";
-    var preZoomWidth = document.body.scrollWidth;
 
     var fittingZoomNumb =
-        (document.body.clientWidth * 1) / document.body.scrollWidth;
+        (node.clientWidth * 1) / node.scrollWidth;
 
-    node.style.transform =
+    node.querySelector('.signature').style.transform =
         "scale(" + fittingZoomNumb + ")";
 
     document.querySelector("body").style.overflow = null;
@@ -193,13 +188,20 @@ function fittingZoom(node, animation = true) {
 
 function originalZoom(node, animation = true) {
     if (animation)
-        node.classList.remove('no-animation');
+        node.querySelector('.signature').classList.remove('no-animation');
     else
-        node.classList.add('no-animation');
+        node.querySelector('.signature').classList.add('no-animation');
 
-    node.style.transform = null;
+    node.querySelector('.signature').style.transform = null;
 }
 
+function toggleContentEditable(node, toggleState) {
+    node.querySelectorAll('.signature p').forEach(function (e) {
+        e.setAttribute("contenteditable", toggleState);
+    });
+}
+
+// Utilities
 function selectText(node) {
     if (document.body.createTextRange) {
         const range = document.body.createTextRange();
@@ -221,13 +223,6 @@ function clearSelection() {
     else if (document.selection) { document.selection.empty(); }
 }
 
-function toggleContentEditable(node, toggleState) {
-    node.querySelectorAll('p').forEach(function (e) {
-        e.setAttribute("contenteditable", toggleState);
-    });
-}
-
-// Utilities
 function createElementFromHTML(htmlString) {
     var div = document.createElement('div');
     div.innerHTML = htmlString.trim();

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="rtl">
+<html>
 
 <head>
   <meta charset="utf-8" />
@@ -11,17 +11,17 @@
 </head>
 
 <body>
-  <div id="signature" class="signature">
+  <div class="signature-container">
     <div class="texts">
-      <p id="name" class="name">الإسم</p>
-      <p id="title" class="title">المنصب</p>
+      <p class="name">الإسم</p>
+      <p class="title">المنصب</p>
     </div>
   </div>
 </body>
 
 <script>
   signatureCreator.makeSignatureEditor(
-    document.getElementById('signature'),
+    document.querySelector('.signature-container'),
     {
     dir: 'rtl',
     saveBtnLabel: 'حفظ كصورة',

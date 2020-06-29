@@ -1,21 +1,25 @@
-.signature {
-    background-image: url("background.jpg");
-    height: 975px;
-    width: 1131px;
-  }
+body {
+  margin: 0;
+}
 
-  .signature > .texts {
-    vertical-align: bottom;
-    align-self: flex-end;
-    margin: 100px;
-    color: #1d88ae;
-    text-align: center;
-  }
-  
-  .signature > .texts > .name {
-    font-size: 40px;
-  }
-  
-  .signature > .texts > .title {
-    font-size: 30px;
-  }
+.signature {
+  background-image: url("background.jpg");
+  height: 975px;
+  width: 1131px;
+}
+
+.signature > .texts {
+  vertical-align: bottom;
+  align-self: flex-end;
+  margin: 100px;
+  color: #1d88ae;
+  text-align: center;
+}
+
+.signature > .texts > .name {
+  font-size: 40px;
+}
+
+.signature > .texts > .title {
+  font-size: 30px;
+}
