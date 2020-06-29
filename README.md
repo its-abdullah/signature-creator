@@ -9,15 +9,15 @@ Signature-creator is a js library providing editable html content (signature), t
 ## Installation
 Call the following files in your HTML:
 * Add the dependecy file html2canvas.js
-```sh
+```html
 <script type="text/javascript" src="html2canvas.min.js"></script>
 ```
 * Add signature-creator.js from this repo
-```sh
+```html
 <script type="text/javascript" src="signature-creator.js"></script>
 ```
 * Also add signature-creator.css from this repo
-```sh
+```html
 <link rel="stylesheet" href="signature-creator.css" />
 ```
 * After that, feel free to add your own custom css.
@@ -27,7 +27,7 @@ Call the following files in your HTML:
     * A selector of the div with the unique class.
     * Options [can be found here](#Options).
     #### Example
-    ```sh
+    ```javascript
     signatureCreator.makeSignatureEditor(
         document.querySelector('.my-div'),
         {
