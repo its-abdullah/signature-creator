@@ -1,7 +1,7 @@
 # Signature-creator
-![Generic badge](https://img.shields.io/badge/status-beta-blue.svg)
+![Generic badge](https://img.shields.io/badge/status-alpha-blue.svg)
 
-Signature-creator is a js library providing editable html content (signature), to be genarated later as an image.
+Signature-creator is a js library providing a responsive over-image editor, allowing modifying html content and the option of generating it as an image.
 
 ## Dependancy
 * [html2canvas](https://github.com/niklasvh/html2canvas)

@@ -1,17 +1,16 @@
 const { src, dest, parallel, watch, series } = require('gulp');
 const del = require('del');
 
-const uglify = require('gulp-uglify');
-const rename = require('gulp-rename');
-const babel = require('gulp-babel');
 const rollup = require('gulp-rollup');
+const terser = require('gulp-terser-js');
+const rename = require('gulp-rename');
 
 const cleanCSS = require('gulp-clean-css');
 
 const srcJsPath = './src/app.js';
 const srcCssPath = './src/style.css';
-const distJsName = 'signature-creator.js';
-const distCssName = 'signature-creator.css';
+const distJsName = 'signature-creator.min.js';
+const distCssName = 'signature-creator.min.css';
 const distJsPath = './dist/' + distJsName;
 const distCssPath = './dist/' + distCssName;
 
@@ -26,20 +25,26 @@ function jsTask(cb) {
   return (
     src(srcJsPath)
       .pipe(
-          rollup({
-              format: 'umd',
-              moduleName: 'signatureCreator',
-              entry: srcJsPath,
-          })
+        rollup({
+          input: srcJsPath,
+          format: 'umd',
+          moduleName: 'signatureCreator',
+          sourcemap: null
+        })
       )
       .pipe(
-          babel({
-              presets: ['es2015'],
-          })
+        terser({
+          mangle: {
+            toplevel: true
+          }
+        })
       )
-      .pipe(uglify())
-      .pipe(rename(distJsName))
-      .pipe(dest('dist'))
+      .pipe(
+        rename(distJsName)
+      )
+      .pipe(
+        dest('dist')
+      )
   );
 }
 
