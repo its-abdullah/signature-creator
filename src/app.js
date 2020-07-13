@@ -146,6 +146,12 @@ function preview(node, animation) {
 }
 
 function edit(node, animation) {
+    //to be used later with input focusing
+    var sideOffset =
+    node.querySelector('.signature p').offsetLeft +
+    (signatureCreator.impl.options.dir == 'rtl'? node.querySelector('.signature p').scrollWidth + 10 : -10);
+    sideOffset = sideOffset > window.innerWidth ? sideOffset - window.innerWidth : sideOffset;
+
     originalZoom(node, animation);
 
     node.querySelector(".control-buttons").classList.add("edit-mode");
@@ -153,14 +159,16 @@ function edit(node, animation) {
 
     toggleContentEditable(node, true);
 
-    window.scrollTo(0, node.querySelector('.signature p').offsetTop, 'smooth');
+    node.querySelector('.signature p').focus();
+    node.querySelector('.signature p').scrollIntoView()
+
+    window.scrollTo(sideOffset, window.scrollY, 'smooth');
 
     setTimeout(function () {
         node.querySelector('.signature p').focus();
-        window.scrollTo(0, node.querySelector('.signature p').offsetTop, 'smooth');
+    node.querySelector('.signature p').scrollIntoView()
+        window.scrollTo(sideOffset, window.scrollY, 'smooth');
     }, 200);
-
-    // window.scrollTo(0, node.querySelector('p').offsetTop);
 }
 
 function fittingZoom(node, animation = true) {
@@ -169,6 +177,7 @@ function fittingZoom(node, animation = true) {
     else
         node.querySelector('.signature').classList.add('no-animation');
 
+    node.style.width = null;
     if (node.clientWidth == node.scrollWidth) return;
 
     document.querySelector("body").style.overflow = "hidden";
@@ -193,6 +202,8 @@ function originalZoom(node, animation = true) {
         node.querySelector('.signature').classList.add('no-animation');
 
     node.querySelector('.signature').style.transform = null;
+
+    node.style.width = node.querySelector('.signature').scrollWidth + 'px';
 }
 
 function toggleContentEditable(node, toggleState) {
