@@ -1,3 +1,32 @@
+:root {
+  --input-bg: #fff;
+  --input-border: #ced4da;
+  --input-focus-shadow: #007bff;
+
+  --btn-primary-text: #fff;
+  --btn-primary-bg: #007bff;
+  --btn-primary-border: #007bff;
+  --btn-primary-hover-bg: #0069d9;
+  --btn-primary-hover-border: #0062cc;
+  --btn-primary-focus-shadow: #96989b;
+
+  --btn-outline-primary-text: #007bff;
+  --btn-outline-primary-bg: #fff;
+  --btn-outline-primary-border: #007bff;
+  --btn-outline-primary-hover-text: #fff;
+  --btn-outline-primary-hover-bg: #0069d9;
+  --btn-outline-primary-hover-border: #0062cc;
+  --btn-outline-primary-focus-shadow: #96989b;
+}
+
+.no-overflow {
+  overflow: hidden;
+}
+
+.signature-container {
+  margin: auto;
+}
+
 .signature-container > .signature {
   display: flex;
   margin: auto;
@@ -23,15 +52,15 @@
   width: 140%;
   min-height: 100%;
   padding: 2px 9px;
-  background-color: #fff;
+  background: var(--input-bg);
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 1px solid var(--input-border);
   border-radius: 0.25rem;
   margin-block-end: 8px;
 }
 
 .signature-container > .signature p[contenteditable="true"]:focus {
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 0.2rem var(--input-focus-shadow);
 }
 
 .signature-container > .control-buttons {
@@ -52,60 +81,51 @@
 
 .control-buttons > .btn {
   display: inline-block;
-  color: #212529;
   text-align: center;
   vertical-align: middle;
-  background-color: transparent;
-  border: 1px solid transparent;
+  border: 1px solid;
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   line-height: 1.5;
   border-radius: 0.25rem;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background 0.15s ease-in-out,
+    border 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   cursor: pointer;
-}
-
-.control-buttons > .btn:hover {
-  color: #212529;
-  text-decoration: none;
 }
 
 .control-buttons > .btn:focus {
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .control-buttons > .btn.btn-primary {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  color: var(--btn-primary-text);
+  background: var(--btn-primary-bg);
+  border-color: var(--btn-primary-border);
 }
 
 .control-buttons > .btn.btn-primary:hover {
-  color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
+  background: var(--btn-primary-hover-bg);
+  border-color: var(--btn-primary-hover-border);
 }
 
 .control-buttons > .btn.btn-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+  box-shadow: 0 0 0 0.2rem var(--btn-primary-focus-shadow);
 }
 
 .control-buttons > .btn.btn-outline-primary {
-  color: #007bff;
-  border-color: #007bff;
-  background-color: white;
+  color: var(--btn-outline-primary-text);
+  background: var(--btn-outline-primary-bg);
+  border-color: var(--btn-outline-primary-border);
 }
 
 .control-buttons > .btn.btn-outline-primary:hover {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  color: var(--btn-outline-primary-hover-text);
+  background: var(--btn-outline-primary-hover-bg);
+  border-color: var(--btn-outline-primary-hover-border);
 }
 
 .control-buttons > .btn.btn-outline-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+  box-shadow: 0 0 0 0.2rem var(--btn-outline-primary-focus-shadow);
 }
 
 .control-buttons.hide {
